@@ -45,7 +45,7 @@ Content-Type: application/json
 {
   "contactUsername": "nwyllcockt",
   "requestUsername": "mwarrick0",
-  "relation": "Brother",
+  "relation": "Sister",
   "acquaintanceDate": "2021-02-23"
 }
 
@@ -58,5 +58,10 @@ Content-Type: application/json
 {
   "acquaintanceDate": "2021-05-23"
 }
+
+###
+
+DELETE http://localhost:8880/api/v1/contact/relation/1
+x-username: mwarrick0
 
 ###

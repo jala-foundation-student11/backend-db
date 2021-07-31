@@ -130,10 +130,29 @@ public class ContactController {
             produces = MediaType.APPLICATION_JSON_VALUE
     )
     public ResponseEntity<GenericResponseDto> updateAcquaintanceDate(@RequestBody PatchRelationRequestDto patchRelationRequestDto,
-                                                                    @PathVariable("relationId") Integer relationId,
-                                                                    @RequestHeader("x-username") String username) throws ParseException {
+                                                                     @PathVariable("relationId") Integer relationId,
+                                                                     @RequestHeader("x-username") String username) throws ParseException {
         try {
             GenericResponseDto response = contactBl.updateAcquaintanceDate(patchRelationRequestDto, relationId, username);
+            return new ResponseEntity<GenericResponseDto>(response, HttpStatus.CREATED);
+        } catch (Exception e) {
+            if (e instanceof ResponseStatusException) {
+                throw e;
+            } else {
+                throw new ResponseStatusException(HttpStatus.BAD_REQUEST, e.getMessage());
+            }
+        }
+    }
+
+    @RequestMapping(
+            value = "/relation/{relationId}",
+            method = RequestMethod.DELETE,
+            produces = MediaType.APPLICATION_JSON_VALUE
+    )
+    public ResponseEntity<GenericResponseDto> deleteRelation(@PathVariable("relationId") Integer relationId,
+                                                             @RequestHeader("x-username") String username) throws ParseException {
+        try {
+            GenericResponseDto response = contactBl.deleteRelation(relationId, username);
             return new ResponseEntity<GenericResponseDto>(response, HttpStatus.CREATED);
         } catch (Exception e) {
             if (e instanceof ResponseStatusException) {

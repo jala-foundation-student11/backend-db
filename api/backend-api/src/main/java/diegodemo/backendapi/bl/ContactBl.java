@@ -142,6 +142,18 @@ public class ContactBl {
         CnRelation recoveredDao = searchResult.get();
         recoveredDao.setAcquaintanceDate(dateUtil.parseStringToDate(patchRelationRequestDto.getAcquaintanceDate()));
         cnRelationRepository.saveAndFlush(recoveredDao);
-        return new GenericResponseDto("201", "Acquaintance Date updated successfully");
+        return new GenericResponseDto("200", "Acquaintance Date updated successfully");
+    }
+
+    public GenericResponseDto deleteRelation(Integer relationId, String username) throws ParseException {
+        Optional<CnRelation> searchResult = cnRelationRepository.findById(relationId);
+        if (searchResult.isEmpty()) {
+            String msg = "Relationship not found";
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, msg);
+        }
+        CnRelation recoveredDao = searchResult.get();
+        recoveredDao.setStatus((short) 0);
+        cnRelationRepository.saveAndFlush(recoveredDao);
+        return new GenericResponseDto("200", "Relation deleted successfully");
     }
 }
