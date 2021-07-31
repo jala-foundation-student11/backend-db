@@ -43,6 +43,9 @@ public class CnRelation implements Serializable {
     @Temporal(TemporalType.TIMESTAMP)
     private Date acquaintanceDate;
     @Basic(optional = false)
+    @Column(name = "relation")
+    private String relation;
+    @Basic(optional = false)
     @Column(name = "status")
     private short status;
     @JoinColumn(name = "contact_id", referencedColumnName = "contact_id")
@@ -59,9 +62,10 @@ public class CnRelation implements Serializable {
         this.relationId = relationId;
     }
 
-    public CnRelation(Integer relationId, Date acquaintanceDate, short status) {
+    public CnRelation(Integer relationId, Date acquaintanceDate, String relation, short status) {
         this.relationId = relationId;
         this.acquaintanceDate = acquaintanceDate;
+        this.relation = relation;
         this.status = status;
     }
 
@@ -79,6 +83,14 @@ public class CnRelation implements Serializable {
 
     public void setAcquaintanceDate(Date acquaintanceDate) {
         this.acquaintanceDate = acquaintanceDate;
+    }
+
+    public String getRelation() {
+        return relation;
+    }
+
+    public void setRelation(String relation) {
+        this.relation = relation;
     }
 
     public short getStatus() {

@@ -6,8 +6,8 @@
 package diegodemo.backendapi.dao.dao;
 
 import java.io.Serializable;
-import java.util.Collection;
 import java.util.Date;
+import java.util.List;
 import javax.persistence.Basic;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
@@ -59,9 +59,9 @@ public class CnContact implements Serializable {
     @Column(name = "seed")
     private String seed;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "contactId", fetch = FetchType.LAZY)
-    private Collection<CnRelation> cnRelationCollection;
+    private List<CnRelation> cnRelationList;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "userId", fetch = FetchType.LAZY)
-    private Collection<CnRelation> cnRelationCollection1;
+    private List<CnRelation> cnRelationList1;
 
     public CnContact() {
     }
@@ -136,20 +136,20 @@ public class CnContact implements Serializable {
         this.seed = seed;
     }
 
-    public Collection<CnRelation> getCnRelationCollection() {
-        return cnRelationCollection;
+    public List<CnRelation> getCnRelationList() {
+        return cnRelationList;
     }
 
-    public void setCnRelationCollection(Collection<CnRelation> cnRelationCollection) {
-        this.cnRelationCollection = cnRelationCollection;
+    public void setCnRelationList(List<CnRelation> cnRelationList) {
+        this.cnRelationList = cnRelationList;
     }
 
-    public Collection<CnRelation> getCnRelationCollection1() {
-        return cnRelationCollection1;
+    public List<CnRelation> getCnRelationList1() {
+        return cnRelationList1;
     }
 
-    public void setCnRelationCollection1(Collection<CnRelation> cnRelationCollection1) {
-        this.cnRelationCollection1 = cnRelationCollection1;
+    public void setCnRelationList1(List<CnRelation> cnRelationList1) {
+        this.cnRelationList1 = cnRelationList1;
     }
 
     @Override

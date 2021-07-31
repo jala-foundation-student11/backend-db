@@ -37,3 +37,16 @@ Content-Type: application/json
 }
 
 ###
+
+POST http://localhost:8880/api/v1/contact/relation
+x-username: mwarrick0
+Content-Type: application/json
+
+{
+  "contactUsername": "nwyllcockt",
+  "requestUsername": "mwarrick0",
+  "relation": "Brother",
+  "acquaintanceDate": "2021-02-23"
+}
+
+###

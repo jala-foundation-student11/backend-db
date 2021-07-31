@@ -1,9 +1,12 @@
 package diegodemo.backendapi.api;
 
 import diegodemo.backendapi.bl.ContactBl;
+import diegodemo.backendapi.dto.ContactRelationRequestDto;
 import diegodemo.backendapi.dto.ContactRequestDto;
 import diegodemo.backendapi.dto.ContactResponseDto;
 import diegodemo.backendapi.dto.GenericResponseDto;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
@@ -19,6 +22,7 @@ import java.util.List;
 public class ContactController {
 
     private ContactBl contactBl;
+    private Logger LOGGER = LoggerFactory.getLogger(ContactController.class);
 
     @Autowired
     public ContactController(ContactBl contactBl) {
@@ -95,6 +99,25 @@ public class ContactController {
         try {
             GenericResponseDto response = contactBl.updateContactByContactId(contactId, username, contactRequestDto);
             return new ResponseEntity<GenericResponseDto>(response, HttpStatus.OK);
+        } catch (Exception e) {
+            if (e instanceof ResponseStatusException) {
+                throw e;
+            } else {
+                throw new ResponseStatusException(HttpStatus.BAD_REQUEST, e.getMessage());
+            }
+        }
+    }
+
+    @RequestMapping(
+            value = "/relation",
+            method = RequestMethod.POST,
+            produces = MediaType.APPLICATION_JSON_VALUE
+    )
+    public ResponseEntity<GenericResponseDto> createContactRelation(@RequestBody ContactRelationRequestDto contactRelationRequestDto,
+                                                                    @RequestHeader("x-username") String username) throws ParseException {
+        try {
+            GenericResponseDto response = contactBl.createContactRelation(contactRelationRequestDto, username);
+            return new ResponseEntity<GenericResponseDto>(response, HttpStatus.CREATED);
         } catch (Exception e) {
             if (e instanceof ResponseStatusException) {
                 throw e;

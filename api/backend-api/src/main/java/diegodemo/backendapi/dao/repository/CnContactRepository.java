@@ -8,4 +8,5 @@ import java.util.List;
 
 public interface CnContactRepository extends JpaRepository<CnContact, Integer> {
     public List<CnContact> findByDateOfBirthBetween(Date lowerDate, Date upperDate);
+    public CnContact findByUserName(String userName);
 }
