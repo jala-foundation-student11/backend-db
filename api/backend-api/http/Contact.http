@@ -17,3 +17,8 @@ GET http://localhost:8880/api/v1/contact/1
 x-username: mwarrick0
 
 ###
+
+GET http://localhost:8880/api/v1/contact/list?code=dateOfBirth&value=2021-02-03;2021-06-08
+x-username: mwarrick0
+
+###

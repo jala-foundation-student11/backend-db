@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.server.ResponseStatusException;
 
 import java.text.ParseException;
+import java.util.List;
 
 @RestController
 @RequestMapping("/api/v1/contact")
@@ -52,6 +53,26 @@ public class ContactController {
         try {
             ContactResponseDto response = contactBl.getContactByUserId(contactUserId, username);
             return new ResponseEntity<ContactResponseDto>(response, HttpStatus.OK);
+        } catch (Exception e) {
+            if (e instanceof ResponseStatusException) {
+                throw e;
+            } else {
+                throw new ResponseStatusException(HttpStatus.BAD_REQUEST, e.getMessage());
+            }
+        }
+    }
+
+    @RequestMapping(
+            value = "/list",
+            method = RequestMethod.GET,
+            produces = MediaType.APPLICATION_JSON_VALUE
+    )
+    public ResponseEntity<List<ContactResponseDto>> getContactList(@RequestHeader("x-username") String username,
+                                                                   @RequestParam(value = "code", defaultValue = "all") String code,
+                                                                   @RequestParam(value = "value", defaultValue = "all") String value) throws ParseException {
+        try {
+            List<ContactResponseDto> response = contactBl.getContactList(code, value);
+            return new ResponseEntity<List<ContactResponseDto>>(response, HttpStatus.OK);
         } catch (Exception e) {
             if (e instanceof ResponseStatusException) {
                 throw e;
