@@ -18,7 +18,7 @@ x-username: mwarrick0
 
 ###
 
-GET http://localhost:8880/api/v1/contact/list?code=email&value=gmail
+GET http://localhost:8880/api/v1/contact/list?code=dateOfBirth&value=2020-02-03;2021-03-03
 x-username: mwarrick0
 
 ###
