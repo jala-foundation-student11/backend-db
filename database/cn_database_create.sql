@@ -1,5 +1,5 @@
 -- Created by Vertabelo (http://vertabelo.com)
--- Last modification date: 2021-07-31 13:09:11.65
+-- Last modification date: 2021-07-31 14:21:23.904
 
 -- tables
 -- Table: cn_contact
@@ -18,9 +18,10 @@ CREATE TABLE cn_contact (
 CREATE TABLE cn_relation (
     relation_id serial  NOT NULL,
     acquaintance_date timestamp  NOT NULL,
-    status smallint  NOT NULL,
     contact_id int  NOT NULL,
     user_id int  NOT NULL,
+    relation varchar(50)  NOT NULL,
+    status smallint  NOT NULL,
     CONSTRAINT cn_relation_pk PRIMARY KEY (relation_id)
 );
 
