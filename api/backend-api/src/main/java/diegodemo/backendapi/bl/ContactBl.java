@@ -4,10 +4,7 @@ import diegodemo.backendapi.dao.dao.CnContact;
 import diegodemo.backendapi.dao.dao.CnRelation;
 import diegodemo.backendapi.dao.repository.CnContactRepository;
 import diegodemo.backendapi.dao.repository.CnRelationRepository;
-import diegodemo.backendapi.dto.ContactRelationRequestDto;
-import diegodemo.backendapi.dto.ContactRequestDto;
-import diegodemo.backendapi.dto.ContactResponseDto;
-import diegodemo.backendapi.dto.GenericResponseDto;
+import diegodemo.backendapi.dto.*;
 import diegodemo.backendapi.util.DaoToDtoMapperUtil;
 import diegodemo.backendapi.util.DateUtil;
 import org.apache.coyote.Response;
@@ -134,5 +131,17 @@ public class ContactBl {
 
         cnRelationRepository.saveAndFlush(relationDao);
         return new GenericResponseDto("201", "Contact created successfully");
+    }
+
+    public GenericResponseDto updateAcquaintanceDate(PatchRelationRequestDto patchRelationRequestDto, Integer relationId, String username) throws ParseException {
+        Optional<CnRelation> searchResult = cnRelationRepository.findById(relationId);
+        if (searchResult.isEmpty()) {
+            String msg = "Relationship not found";
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, msg);
+        }
+        CnRelation recoveredDao = searchResult.get();
+        recoveredDao.setAcquaintanceDate(dateUtil.parseStringToDate(patchRelationRequestDto.getAcquaintanceDate()));
+        cnRelationRepository.saveAndFlush(recoveredDao);
+        return new GenericResponseDto("201", "Acquaintance Date updated successfully");
     }
 }
