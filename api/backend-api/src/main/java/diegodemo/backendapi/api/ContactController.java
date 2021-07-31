@@ -3,6 +3,7 @@ package diegodemo.backendapi.api;
 import diegodemo.backendapi.bl.ContactBl;
 import diegodemo.backendapi.dto.ContactRequestDto;
 import diegodemo.backendapi.dto.ContactResponseDto;
+import diegodemo.backendapi.dto.GenericResponseDto;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
@@ -44,14 +45,14 @@ public class ContactController {
     }
 
     @RequestMapping(
-            value = "/{contactUserId}",
+            value = "/{contactId}",
             method = RequestMethod.GET,
             produces = MediaType.APPLICATION_JSON_VALUE
     )
     public ResponseEntity<ContactResponseDto> getContactByUserId(@RequestHeader("x-username") String username,
-                                                                 @PathVariable("contactUserId") Integer contactUserId) throws ParseException {
+                                                                 @PathVariable("contactId") Integer contactId) throws ParseException {
         try {
-            ContactResponseDto response = contactBl.getContactByUserId(contactUserId, username);
+            ContactResponseDto response = contactBl.getContactByUserId(contactId, username);
             return new ResponseEntity<ContactResponseDto>(response, HttpStatus.OK);
         } catch (Exception e) {
             if (e instanceof ResponseStatusException) {
@@ -73,6 +74,27 @@ public class ContactController {
         try {
             List<ContactResponseDto> response = contactBl.getContactList(code, value);
             return new ResponseEntity<List<ContactResponseDto>>(response, HttpStatus.OK);
+        } catch (Exception e) {
+            if (e instanceof ResponseStatusException) {
+                throw e;
+            } else {
+                throw new ResponseStatusException(HttpStatus.BAD_REQUEST, e.getMessage());
+            }
+        }
+    }
+
+    @RequestMapping(
+            value = "{contactId}",
+            method = RequestMethod.PUT,
+            produces = MediaType.APPLICATION_JSON_VALUE
+    )
+    public ResponseEntity<GenericResponseDto> updateContactByContactId(
+            @RequestBody ContactRequestDto contactRequestDto,
+            @RequestHeader("x-username") String username,
+            @PathVariable("contactId") Integer contactId) throws ParseException {
+        try {
+            GenericResponseDto response = contactBl.updateContactByContactId(contactId, username, contactRequestDto);
+            return new ResponseEntity<GenericResponseDto>(response, HttpStatus.OK);
         } catch (Exception e) {
             if (e instanceof ResponseStatusException) {
                 throw e;

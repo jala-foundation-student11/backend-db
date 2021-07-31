@@ -4,6 +4,7 @@ import diegodemo.backendapi.dao.dao.CnContact;
 import diegodemo.backendapi.dao.repository.CnContactRepository;
 import diegodemo.backendapi.dto.ContactRequestDto;
 import diegodemo.backendapi.dto.ContactResponseDto;
+import diegodemo.backendapi.dto.GenericResponseDto;
 import diegodemo.backendapi.util.DaoToDtoMapperUtil;
 import diegodemo.backendapi.util.DateUtil;
 import org.slf4j.Logger;
@@ -46,11 +47,11 @@ public class ContactBl {
         return "Contact created successfully";
     }
 
-    public ContactResponseDto getContactByUserId(Integer contactUserId, String username) throws ParseException {
+    public ContactResponseDto getContactByUserId(Integer contactId, String username) throws ParseException {
 
-        Optional<CnContact> foundContact = cnContactRepository.findById(contactUserId);
+        Optional<CnContact> foundContact = cnContactRepository.findById(contactId);
         if (foundContact.isEmpty()) {
-            String message = "User with id" + contactUserId + " not found";
+            String message = "User with id" + contactId + " not found";
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST, message);
         } else {
             ContactResponseDto contactResponseDto = new ContactResponseDto();
@@ -85,6 +86,25 @@ public class ContactBl {
                 String msg = "Code " + code + " does not exist.";
                 throw new ResponseStatusException(HttpStatus.BAD_REQUEST, msg);
 
+        }
+    }
+
+    public GenericResponseDto updateContactByContactId(Integer contactId, String username, ContactRequestDto contactRequestDto) throws ParseException {
+
+        Optional<CnContact> foundContact = cnContactRepository.findById(contactId);
+        if (foundContact.isEmpty()) {
+            String message = "User with id" + contactId + " not found";
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, message);
+        } else {
+            CnContact retrievedContact = foundContact.get();
+            retrievedContact.setFirstName(contactRequestDto.getFirstName());
+            retrievedContact.setLastName(contactRequestDto.getLastName());
+            retrievedContact.setUserName(contactRequestDto.getUsername());
+            retrievedContact.setEmail(contactRequestDto.getEmail());
+            retrievedContact.setDateOfBirth(dateUtil.parseStringToDate(contactRequestDto.getDateOfBirth()));
+            retrievedContact.setSeed(contactRequestDto.getSeed());
+            cnContactRepository.saveAndFlush(retrievedContact);
+            return new GenericResponseDto("200", "Contact updated successfully");
         }
     }
 }
