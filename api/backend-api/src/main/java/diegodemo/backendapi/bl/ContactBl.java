@@ -77,6 +77,18 @@ public class ContactBl {
             case "all":
                 foundList = cnContactRepository.findAll();
                 return daoToDtoMapperUtil.mapCnContactToDto(foundList.stream()).collect(Collectors.toList());
+            case "firstName":
+                foundList = cnContactRepository.findByFirstNameIgnoreCaseContaining(value);
+                return daoToDtoMapperUtil.mapCnContactToDto(foundList.stream()).collect(Collectors.toList());
+            case "lastName":
+                foundList = cnContactRepository.findByLastNameIgnoreCaseContaining(value);
+                return daoToDtoMapperUtil.mapCnContactToDto(foundList.stream()).collect(Collectors.toList());
+            case "userName":
+                foundList = cnContactRepository.findByUserNameIgnoreCaseContaining(value);
+                return daoToDtoMapperUtil.mapCnContactToDto(foundList.stream()).collect(Collectors.toList());
+            case "email":
+                foundList = cnContactRepository.findByEmailIgnoreCaseContaining(value);
+                return daoToDtoMapperUtil.mapCnContactToDto(foundList.stream()).collect(Collectors.toList());
             case "dateOfBirth":
                 String[] splitted = value.split(";");
                 LOGGER.info("Spliited: " + splitted[0] + " " + splitted[1]);
