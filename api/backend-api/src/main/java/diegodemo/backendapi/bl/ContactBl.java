@@ -70,6 +70,23 @@ public class ContactBl {
         }
     }
 
+    public RelationResponseDto getRelationByUsers(String requestUsername, String targetUsername) throws ParseException {
+
+        CnRelation relationDao = cnRelationRepository.findValidCnRelationByUsernames(requestUsername, targetUsername);
+        if (relationDao == null) {
+            String message = "User " + requestUsername + " and user " + targetUsername + "don't have a relationship";
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, message);
+        } else {
+            RelationResponseDto relationResponseDto = new RelationResponseDto();
+            relationResponseDto.setRelationId(relationDao.getRelationId());
+            relationResponseDto.setRequestUsername(relationDao.getContactId().getUserName());
+            relationResponseDto.setRequestUserId(relationDao.getContactId().getContactId());
+            relationResponseDto.setTargetUsername(relationDao.getUserId().getUserName());
+            relationResponseDto.setTargetUserId(relationDao.getUserId().getContactId());
+            return relationResponseDto;
+        }
+    }
+
     public List<ContactResponseDto> getContactList(String code, String value) throws ParseException {
 
         List<CnContact> foundList;

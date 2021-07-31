@@ -107,6 +107,25 @@ public class ContactController {
 
     @RequestMapping(
             value = "/relation",
+            method = RequestMethod.GET,
+            produces = MediaType.APPLICATION_JSON_VALUE
+    )
+    public ResponseEntity<RelationResponseDto> getRelationByUsers(@RequestHeader("x-username") String username,
+                                                                 @RequestParam("targetUsername") String targetUsername) throws ParseException {
+        try {
+            RelationResponseDto response = contactBl.getRelationByUsers(username, targetUsername);
+            return new ResponseEntity<RelationResponseDto>(response, HttpStatus.OK);
+        } catch (Exception e) {
+            if (e instanceof ResponseStatusException) {
+                throw e;
+            } else {
+                throw new ResponseStatusException(HttpStatus.BAD_REQUEST, e.getMessage());
+            }
+        }
+    }
+
+    @RequestMapping(
+            value = "/relation",
             method = RequestMethod.POST,
             produces = MediaType.APPLICATION_JSON_VALUE
     )

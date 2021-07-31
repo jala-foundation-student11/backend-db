@@ -65,3 +65,8 @@ DELETE http://localhost:8880/api/v1/contact/relation/1
 x-username: mwarrick0
 
 ###
+
+GET http://localhost:8880/api/v1/contact/relation?targetUsername=nwyllcockt
+x-username: mwarrick0
+
+###
