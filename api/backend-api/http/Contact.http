@@ -12,3 +12,8 @@ Content-Type: application/json
 }
 
 ###
+
+GET http://localhost:8880/api/v1/contact/1
+x-username: mwarrick0
+
+###

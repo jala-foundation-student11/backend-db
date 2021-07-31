@@ -2,6 +2,7 @@ package diegodemo.backendapi.api;
 
 import diegodemo.backendapi.bl.ContactBl;
 import diegodemo.backendapi.dto.ContactRequestDto;
+import diegodemo.backendapi.dto.ContactResponseDto;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
@@ -16,6 +17,7 @@ import java.text.ParseException;
 public class ContactController {
 
     private ContactBl contactBl;
+
     @Autowired
     public ContactController(ContactBl contactBl) {
         this.contactBl = contactBl;
@@ -31,6 +33,25 @@ public class ContactController {
         try {
             String response = contactBl.createContact(contactRequestDto, username);
             return new ResponseEntity<String>(response, HttpStatus.CREATED);
+        } catch (Exception e) {
+            if (e instanceof ResponseStatusException) {
+                throw e;
+            } else {
+                throw new ResponseStatusException(HttpStatus.BAD_REQUEST, e.getMessage());
+            }
+        }
+    }
+
+    @RequestMapping(
+            value = "/{contactUserId}",
+            method = RequestMethod.GET,
+            produces = MediaType.APPLICATION_JSON_VALUE
+    )
+    public ResponseEntity<ContactResponseDto> getContactByUserId(@RequestHeader("x-username") String username,
+                                                                 @PathVariable("contactUserId") Integer contactUserId) throws ParseException {
+        try {
+            ContactResponseDto response = contactBl.getContactByUserId(contactUserId, username);
+            return new ResponseEntity<ContactResponseDto>(response, HttpStatus.OK);
         } catch (Exception e) {
             if (e instanceof ResponseStatusException) {
                 throw e;
