@@ -1,0 +1,14 @@
+POST http://localhost:8880/api/v1/contact
+x-username: mwarrick0
+Content-Type: application/json
+
+{
+  "firstName": "Diego",
+  "lastName": "Balderrama",
+  "username": "dbalderrama",
+  "email": "dbalderrama@gmail.com",
+  "dateOfBirth": "2021-02-23",
+  "seed": "xx"
+}
+
+###
