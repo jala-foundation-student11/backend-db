@@ -37,7 +37,7 @@ public class ContactBl {
         this.cnRelationRepository = cnRelationRepository;
     }
 
-    public String createContact(ContactRequestDto contactRequestDto, String username) throws ParseException {
+    public GenericResponseDto createContact(ContactRequestDto contactRequestDto, String username) throws ParseException {
 
         CnContact insertDao = new CnContact();
         insertDao.setFirstName(contactRequestDto.getFirstName());
@@ -47,7 +47,7 @@ public class ContactBl {
         insertDao.setDateOfBirth(dateUtil.parseStringToDate(contactRequestDto.getDateOfBirth()));
         insertDao.setSeed(contactRequestDto.getSeed());
         cnContactRepository.saveAndFlush(insertDao);
-        return "Contact created successfully";
+        return new GenericResponseDto("200", "Contact created successfully");
     }
 
     public ContactResponseDto getContactByUserId(Integer contactId, String username) throws ParseException {

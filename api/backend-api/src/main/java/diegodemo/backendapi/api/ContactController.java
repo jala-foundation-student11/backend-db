@@ -31,11 +31,11 @@ public class ContactController {
             method = RequestMethod.POST,
             produces = MediaType.APPLICATION_JSON_VALUE
     )
-    public ResponseEntity<String> createContact(@RequestBody ContactRequestDto contactRequestDto,
+    public ResponseEntity<GenericResponseDto> createContact(@RequestBody ContactRequestDto contactRequestDto,
                                                 @RequestHeader("x-username") String username) throws ParseException {
         try {
-            String response = contactBl.createContact(contactRequestDto, username);
-            return new ResponseEntity<String>(response, HttpStatus.CREATED);
+            GenericResponseDto response = contactBl.createContact(contactRequestDto, username);
+            return new ResponseEntity<GenericResponseDto>(response, HttpStatus.CREATED);
         } catch (Exception e) {
             if (e instanceof ResponseStatusException) {
                 throw e;
